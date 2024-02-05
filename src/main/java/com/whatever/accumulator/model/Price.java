@@ -8,6 +8,7 @@ import lombok.*;
 @Setter
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 public class Price {
 
   private Long id;

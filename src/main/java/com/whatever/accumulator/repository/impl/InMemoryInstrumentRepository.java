@@ -18,13 +18,11 @@ public class InMemoryInstrumentRepository implements InstrumentRepository {
 
   @Override
   public Instrument add(Instrument instrument) {
-    while (instrument.getId() == null) {
-      Long id = idGenerator.incrementAndGet();
-      if (get(id).isEmpty()) {
-        instrument.setId(id);
-      }
+    if (instrument.getId() == null) {
+      instrument.setId(idGenerator.incrementAndGet());
     }
-    return instruments.put(instrument.getId(), instrument);
+    instruments.put(instrument.getId(), instrument);
+    return instrument;
   }
 
   @Override

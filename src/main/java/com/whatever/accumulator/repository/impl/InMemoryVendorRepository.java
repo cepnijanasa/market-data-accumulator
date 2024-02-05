@@ -18,13 +18,11 @@ public class InMemoryVendorRepository implements VendorRepository {
 
   @Override
   public Vendor add(Vendor vendor) {
-    while (vendor.getId() == null) {
-      Long id = idGenerator.incrementAndGet();
-      if (get(id).isEmpty()) {
-        vendor.setId(id);
-      }
+    if (vendor.getId() == null) {
+      vendor.setId(idGenerator.incrementAndGet());
     }
-    return vendors.put(vendor.getId(), vendor);
+    vendors.put(vendor.getId(), vendor);
+    return vendor;
   }
 
   @Override

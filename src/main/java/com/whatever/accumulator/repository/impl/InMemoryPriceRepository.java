@@ -21,11 +21,8 @@ public class InMemoryPriceRepository implements PriceRepository {
 
   @Override
   public Price add(Price price) {
-    while (price.getId() == null) {
-      Long id = idGenerator.incrementAndGet();
-      if (get(id).isEmpty()) {
-        price.setId(id);
-      }
+    if (price.getId() == null) {
+      price.setId(idGenerator.incrementAndGet());
     }
     Map<Long, Map<Long, Price>> pricesByInstrument =
         pricesByVendor.computeIfAbsent(
@@ -35,7 +32,8 @@ public class InMemoryPriceRepository implements PriceRepository {
         pricesByInstrument.computeIfAbsent(
             price.getInstrumentId(), key -> Collections.synchronizedMap(new TreeMap<>()));
 
-    return prices.put(price.getId(), price);
+    prices.put(price.getId(), price);
+    return price;
   }
 
   @Override
