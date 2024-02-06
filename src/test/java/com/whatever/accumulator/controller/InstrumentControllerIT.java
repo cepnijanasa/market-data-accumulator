@@ -8,11 +8,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.whatever.accumulator.controller.InstrumentController;
 import com.whatever.accumulator.exception.KeyViolationException;
 import com.whatever.accumulator.exception.ResourceNotFoundException;
 import com.whatever.accumulator.model.Instrument;
 import com.whatever.accumulator.service.InstrumentService;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +22,13 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.List;
-
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = InstrumentController.class)
 class InstrumentControllerIT {
 
-  public static final String SYMBOL = "ABC";
-  public static final String CURRENCY = "GBP";
-  public static final long ID = 1L;
+  private static final String SYMBOL = "ABC";
+  private static final String CURRENCY = "GBP";
+  private static final long ID = 1L;
 
   @Autowired
   private MockMvc mvc;
@@ -105,5 +103,23 @@ class InstrumentControllerIT {
         .perform(get("/api/instruments"))
         .andExpect(status().isOk())
         .andExpect(content().string(equalTo(objectMapper.writeValueAsString(instrumentList))));
+  }
+
+  @Test
+  void testGetPricesByInstrument_success() throws Exception {
+    List<Instrument> instrumentList = List.of(new Instrument(ID, SYMBOL, CURRENCY));
+    doReturn(instrumentList).when(instrumentService).getPricesByInstrument(ID);
+
+    this.mvc
+            .perform(get("/api/instruments/" + ID + "/prices"))
+            .andExpect(status().isOk())
+            .andExpect(content().string(equalTo(objectMapper.writeValueAsString(instrumentList))));
+  }
+
+  @Test
+  void testGetPricesByInstrument_nonExistingId_statusNotFound() throws Exception {
+    doThrow(new ResourceNotFoundException("not found")).when(instrumentService).getPricesByInstrument(ID);
+
+    this.mvc.perform(get("/api/instruments/" + ID + "/prices")).andExpect(status().isNotFound());
   }
 }
