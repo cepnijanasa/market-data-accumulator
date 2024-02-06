@@ -10,6 +10,7 @@ class InMemoryInstrumentRepositoryTest {
 
   private static final String CURRENCY = "GBP";
   private static final String SYMBOL = "ABC";
+  public static final long ID = 1L;
 
   private InMemoryInstrumentRepository repository;
 
@@ -20,7 +21,7 @@ class InMemoryInstrumentRepositoryTest {
 
   @Test
   void testAdd_withId_success() {
-    Instrument instrument = new Instrument(1L, SYMBOL, CURRENCY);
+    Instrument instrument = new Instrument(ID, SYMBOL, CURRENCY);
     Instrument added = repository.add(instrument);
     assertThat(added).usingRecursiveComparison().isEqualTo(instrument);
   }
@@ -38,7 +39,7 @@ class InMemoryInstrumentRepositoryTest {
 
   @Test
   void testRemove_success() {
-    Instrument instrument = new Instrument(1L, SYMBOL, CURRENCY);
+    Instrument instrument = new Instrument(ID, SYMBOL, CURRENCY);
     Instrument added = repository.add(instrument);
     assertThat(repository.get(added.getId())).isPresent();
     repository.remove(added.getId());
@@ -47,16 +48,15 @@ class InMemoryInstrumentRepositoryTest {
 
   @Test
   void testGet_existingId_success() {
-    Long id = 1L;
-    assertThat(repository.get(id)).isEmpty();
-    Instrument instrument = new Instrument(id, SYMBOL, CURRENCY);
+    assertThat(repository.get(ID)).isEmpty();
+    Instrument instrument = new Instrument(ID, SYMBOL, CURRENCY);
     Instrument added = repository.add(instrument);
     assertThat(repository.get(added.getId())).isPresent();
   }
 
   @Test
   void testGet_nonExistingId_success() {
-    assertThat(repository.get(1L)).isEmpty();
+    assertThat(repository.get(ID)).isEmpty();
   }
 
   @Test

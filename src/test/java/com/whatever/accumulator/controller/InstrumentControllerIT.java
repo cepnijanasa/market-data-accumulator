@@ -1,8 +1,9 @@
-package com.whatever.accumulator;
+package com.whatever.accumulator.controller;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -21,6 +22,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
+
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = InstrumentController.class)
 class InstrumentControllerIT {
@@ -29,13 +32,15 @@ class InstrumentControllerIT {
   public static final String CURRENCY = "GBP";
   public static final long ID = 1L;
 
-  @Autowired private MockMvc mvc;
-  @Autowired private ObjectMapper objectMapper;
-  @MockBean private InstrumentService instrumentService;
+  @Autowired
+  private MockMvc mvc;
+  @Autowired
+  private ObjectMapper objectMapper;
+  @MockBean
+  private InstrumentService instrumentService;
 
   @Test
   void testAddInstrument_success() throws Exception {
-
     Instrument instrument = new Instrument(ID, SYMBOL, CURRENCY);
     doReturn(instrument).when(instrumentService).addInstrument(instrument);
 
@@ -72,5 +77,33 @@ class InstrumentControllerIT {
     String errorMsg = "not found";
     doThrow(new ResourceNotFoundException(errorMsg)).when(instrumentService).removeInstrument(ID);
     this.mvc.perform(delete("/api/instruments/" + ID)).andExpect(status().isNotFound());
+  }
+
+  @Test
+  void testGetInstrument_success() throws Exception {
+    Instrument instrument = new Instrument(ID, SYMBOL, CURRENCY);
+    doReturn(instrument).when(instrumentService).getInstrument(ID);
+    this.mvc
+        .perform(get("/api/instruments/" + ID))
+        .andExpect(status().isOk())
+        .andExpect(content().string(equalTo(objectMapper.writeValueAsString(instrument))));
+  }
+
+  @Test
+  void testGetInstrument_nonExistingId_statusNotFound() throws Exception {
+    String errorMsg = "not found";
+    doThrow(new ResourceNotFoundException(errorMsg)).when(instrumentService).getInstrument(ID);
+    this.mvc.perform(get("/api/instruments/" + ID)).andExpect(status().isNotFound());
+  }
+
+  @Test
+  void testGetAllInstruments_success() throws Exception {
+    Instrument instrument = new Instrument(ID, SYMBOL, CURRENCY);
+    List<Instrument> instrumentList = List.of(instrument);
+    doReturn(instrumentList).when(instrumentService).getAllInstruments();
+    this.mvc
+        .perform(get("/api/instruments"))
+        .andExpect(status().isOk())
+        .andExpect(content().string(equalTo(objectMapper.writeValueAsString(instrumentList))));
   }
 }

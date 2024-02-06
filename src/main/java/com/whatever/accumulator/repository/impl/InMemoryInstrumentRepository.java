@@ -22,7 +22,7 @@ public class InMemoryInstrumentRepository implements InstrumentRepository {
       instrument.setId(idGenerator.incrementAndGet());
     }
     instruments.put(instrument.getId(), instrument);
-    return instrument;
+    return instruments.get(instrument.getId());
   }
 
   @Override

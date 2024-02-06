@@ -22,7 +22,7 @@ public class InMemoryVendorRepository implements VendorRepository {
       vendor.setId(idGenerator.incrementAndGet());
     }
     vendors.put(vendor.getId(), vendor);
-    return vendor;
+    return vendors.get(vendor.getId());
   }
 
   @Override

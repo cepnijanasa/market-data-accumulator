@@ -33,7 +33,7 @@ public class InMemoryPriceRepository implements PriceRepository {
             price.getInstrumentId(), key -> Collections.synchronizedMap(new TreeMap<>()));
 
     prices.put(price.getId(), price);
-    return price;
+    return prices.get(price.getId());
   }
 
   @Override

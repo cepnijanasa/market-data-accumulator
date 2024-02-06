@@ -17,7 +17,7 @@ public class PriceService {
   private static final String MSG_KEY_VIOLATION_TEMPLATE = "Price with id=%s already exists";
 
   public Price addPrice(Price price) {
-    if (price.getId() != null && priceRepository.get(price.getId()).isEmpty()) {
+    if (price.getId() != null && priceRepository.get(price.getId()).isPresent()) {
       // ID already exists
       throw new KeyViolationException(String.format(MSG_KEY_VIOLATION_TEMPLATE, price.getId()));
     }
