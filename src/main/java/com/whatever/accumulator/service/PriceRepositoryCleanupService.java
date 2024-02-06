@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class RepositoryCleanupService {
+public class PriceRepositoryCleanupService {
   private static final String CACHE_RETENTION_PROPERTY = "cache.retention-days";
   private static final String CACHE_CLEANUP_CRON_PROPERTY = "cache.cleanup.cron";
 
@@ -19,7 +19,7 @@ public class RepositoryCleanupService {
   @Getter
   private final int cacheRetentionDays;
 
-  public RepositoryCleanupService(
+  public PriceRepositoryCleanupService(
       PriceRepository priceRepository,
       @Value("${" + CACHE_RETENTION_PROPERTY + ": 30}") int cacheRetentionDays) {
     this.priceRepository = priceRepository;

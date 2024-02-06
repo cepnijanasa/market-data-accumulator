@@ -8,7 +8,7 @@ import com.whatever.accumulator.repository.PriceRepository;
 import com.whatever.accumulator.repository.VendorRepository;
 import com.whatever.accumulator.service.InstrumentService;
 import com.whatever.accumulator.service.PriceService;
-import com.whatever.accumulator.service.RepositoryCleanupService;
+import com.whatever.accumulator.service.PriceRepositoryCleanupService;
 import com.whatever.accumulator.service.VendorService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ class MarketPriceAccumulatorAppIT {
 	@Autowired
 	private VendorController vendorController;
 	@Autowired
-	private RepositoryCleanupService cleanupService;
+	private PriceRepositoryCleanupService cleanupService;
 
 	@Test
 	void contextLoads() {

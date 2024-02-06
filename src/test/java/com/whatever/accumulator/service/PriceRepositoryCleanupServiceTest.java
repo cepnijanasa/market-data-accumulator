@@ -10,14 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class RepositoryCleanupServiceTest {
+class PriceRepositoryCleanupServiceTest {
 
   private static final long ID = 1L;
   private static final long VENDOR_ID = 1L;
   private static final long INSTRUMENT_ID = 1L;
   private static final double VALUE = 123.20D;
 
-  @Autowired private RepositoryCleanupService cleanupService;
+  @Autowired private PriceRepositoryCleanupService cleanupService;
   @Autowired private PriceRepository priceRepository;
 
   @Test
