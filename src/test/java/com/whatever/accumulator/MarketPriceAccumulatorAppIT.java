@@ -8,6 +8,7 @@ import com.whatever.accumulator.repository.PriceRepository;
 import com.whatever.accumulator.repository.VendorRepository;
 import com.whatever.accumulator.service.InstrumentService;
 import com.whatever.accumulator.service.PriceService;
+import com.whatever.accumulator.service.RepositoryCleanupService;
 import com.whatever.accumulator.service.VendorService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,8 @@ class MarketPriceAccumulatorAppIT {
 	private PriceController priceController;
 	@Autowired
 	private VendorController vendorController;
+	@Autowired
+	private RepositoryCleanupService cleanupService;
 
 	@Test
 	void contextLoads() {
@@ -52,5 +55,7 @@ class MarketPriceAccumulatorAppIT {
 		assertThat(instrumentController).isNotNull();
 		assertThat(priceController).isNotNull();
 		assertThat(vendorController).isNotNull();
+
+		assertThat(cleanupService).isNotNull();
 	}
 }
