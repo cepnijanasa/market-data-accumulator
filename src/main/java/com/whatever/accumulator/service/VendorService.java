@@ -25,7 +25,7 @@ public class VendorService {
   }
 
   public Vendor addVendor(Vendor vendor) {
-    if (vendor.getId() != null && vendorRepository.get(vendor.getId()).isEmpty()) {
+    if (vendor.getId() != null && vendorRepository.get(vendor.getId()).isPresent()) {
       // ID already exists
       throw new KeyViolationException(String.format(MSG_KEY_VIOLATION_TEMPLATE, vendor.getId()));
     }
@@ -52,6 +52,12 @@ public class VendorService {
   }
 
   public Collection<Price> getPricesByVendor(Long vendorId) {
+    Vendor vendor =
+        vendorRepository
+            .get(vendorId)
+            .orElseThrow(
+                () ->
+                    new ResourceNotFoundException(String.format(MSG_NOT_FOUND_TEMPLATE, vendorId)));
     return priceRepository.getPricesByVendor(vendorId);
   }
 }

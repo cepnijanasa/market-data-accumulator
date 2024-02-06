@@ -18,9 +18,9 @@ import org.junit.jupiter.api.Test;
 
 class InstrumentServiceTest {
 
-  public static final String SYMBOL = "ABC";
-  public static final String CURRENCY = "GBP";
-  public static final long ID = 1L;
+  private static final String SYMBOL = "ABC";
+  private static final String CURRENCY = "GBP";
+  private static final long ID = 1L;
   private InstrumentService instrumentService;
   private InstrumentRepository instrumentRepository;
   private PriceRepository priceRepository;
