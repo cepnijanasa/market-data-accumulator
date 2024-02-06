@@ -26,7 +26,7 @@ public class MarketDataAccumulatorApp {
   public static void main(String[] args) {
     SpringApplication.run(MarketDataAccumulatorApp.class, args);
   }
-
+/*
   @Bean
   public CommandLineRunner init(
       VendorRepository vendorRepository,
@@ -60,5 +60,5 @@ public class MarketDataAccumulatorApp {
           .log()
           .subscribe();
     };
-  }
+  }*/
 }

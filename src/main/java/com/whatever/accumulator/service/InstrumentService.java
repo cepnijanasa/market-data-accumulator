@@ -29,7 +29,8 @@ public class InstrumentService {
   public Instrument addInstrument(Instrument instrument) {
     if (instrument.getId() != null && instrumentRepository.get(instrument.getId()).isPresent()) {
       // ID already exists
-      throw new KeyViolationException(String.format(MSG_KEY_VIOLATION_TEMPLATE, instrument.getId()));
+      throw new KeyViolationException(
+          String.format(MSG_KEY_VIOLATION_TEMPLATE, instrument.getId()));
     }
     return instrumentRepository.add(instrument);
   }
@@ -45,7 +46,8 @@ public class InstrumentService {
 
   public Instrument getInstrument(Long id) {
     Optional<Instrument> instrument = instrumentRepository.get(id);
-    return instrument.orElseThrow(() -> new ResourceNotFoundException(String.format(MSG_NOT_FOUND_TEMPLATE, id)));
+    return instrument.orElseThrow(
+        () -> new ResourceNotFoundException(String.format(MSG_NOT_FOUND_TEMPLATE, id)));
   }
 
   public Collection<Instrument> getAllInstruments() {
@@ -53,6 +55,10 @@ public class InstrumentService {
   }
 
   public Collection<Price> getPricesByInstrument(Long instrumentId) {
-    return priceRepository.getPricesByInstrument(instrumentId);
+    Instrument instrument =
+        instrumentRepository
+            .get(instrumentId)
+            .orElseThrow(() -> new ResourceNotFoundException(String.format(MSG_NOT_FOUND_TEMPLATE, instrumentId)));
+    return priceRepository.getPricesByInstrument(instrument.getId());
   }
 }

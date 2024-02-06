@@ -61,13 +61,10 @@ class InMemoryInstrumentRepositoryTest {
 
   @Test
   void testGetAll_success() {
-    repository.add(new Instrument(1L, SYMBOL, CURRENCY));
-    repository.add(new Instrument(2L, SYMBOL, CURRENCY));
-    assertThat(repository.getAll()).size().isEqualTo(2);
-  }
-
-  @Test
-  void testGetAll_empty_success() {
-    assertThat(repository.getAll()).size().isEqualTo(0);
+    Instrument instrument1 = new Instrument(1L, SYMBOL, CURRENCY);
+    Instrument instrument2 = new Instrument(2L, SYMBOL, CURRENCY);
+    repository.add(instrument1);
+    repository.add(instrument2);
+    assertThat(repository.getAll()).containsExactly(instrument1, instrument2);
   }
 }
