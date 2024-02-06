@@ -6,9 +6,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-public class MarketDataAccumulatorApp {
+public class MarketPriceAccumulatorApp {
 
   public static void main(String[] args) {
-    SpringApplication.run(MarketDataAccumulatorApp.class, args);
+    SpringApplication.run(MarketPriceAccumulatorApp.class, args);
   }
 }
