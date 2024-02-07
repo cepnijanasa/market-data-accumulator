@@ -46,6 +46,7 @@ I moved Prices by Vendor and Prices by Instrument endpoints to Vendor and Instru
 
 ## Sequence diagram
 
+![sequence-diagram](docs/sequence-diagram.png)
 
 ## Run the app
 >mvn spring-boot:run
@@ -56,7 +57,7 @@ or
 
 ## Run the app in demo mode
 
-In demo mode repositories are populated with random data. Cache cleanup can be seen in action. Traces of cleanup can be seen in the log.
+In demo mode repositories are populated with random data. Cache cleanup can be seen in action. Traces of cleanup are in the log.
 
 >mvn spring-boot:run -Dspring-boot.run.profiles=demo
 
