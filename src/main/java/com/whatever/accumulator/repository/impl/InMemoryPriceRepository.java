@@ -8,6 +8,15 @@ import java.util.concurrent.atomic.AtomicLong;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
+/**
+ * I understand that having 3-levels-deep map adds a lot of complexity and negatively impacts maintainability.
+ * But I wanted to have fun here. I imagined huge volumes of data, and I've put a lot of emphasis on the fact
+ * that clients would often be pulling all prices for a particular vendor or prices for a single instrument
+ * from various vendors. My motivation was to avoid filtering which would be necessary
+ * if we had all the prices in a single map. It would be interesting to performance-test
+ * these two different approaches with varying volumes of data.
+ */
+
 @Repository
 @Slf4j
 public class InMemoryPriceRepository implements PriceRepository {
@@ -102,7 +111,7 @@ public class InMemoryPriceRepository implements PriceRepository {
       for (Map<Long, Price> prices : pricesByInstrument.values()) {
         for (Price price : prices.values()) {
           if (price.getDateTimeCreated().isBefore(dateTime)) {
-            log.debug("Removing " + price);
+            log.info("Removing " + price);
             prices.remove(price.getId());
           }
         }
