@@ -65,3 +65,5 @@ or
 
 >java -Dspring.profiles.active=demo -jar market-data-accumulator-0.0.1-SNAPSHOT.jar
 
+## REST API Specification
+http://localhost:8080/swagger-ui/index.html
