@@ -70,4 +70,28 @@ class InMemoryPriceRepositoryTest {
     repository.add(price2);
     assertThat(repository.getAll()).containsExactly(price1, price2);
   }
+
+  @Test
+  void testGetPricesByVendor_success() {
+    Price price1 = new Price(1L, VENDOR_ID, INSTRUMENT_ID, VALUE, DATE_TIME_CREATED);
+    Price price2 = new Price(2L, 2L, INSTRUMENT_ID, VALUE, DATE_TIME_CREATED);
+    Price price3 = new Price(3L, VENDOR_ID, INSTRUMENT_ID, VALUE, DATE_TIME_CREATED);
+    repository.add(price1);
+    repository.add(price2);
+    repository.add(price3);
+    assertThat(repository.getPricesByVendor(VENDOR_ID)).containsExactly(price1, price3);
+    assertThat(repository.getPricesByVendor(2L)).containsExactly(price2);
+  }
+
+  @Test
+  void testGetPricesByInstrument_success() {
+    Price price1 = new Price(1L, VENDOR_ID, INSTRUMENT_ID, VALUE, DATE_TIME_CREATED);
+    Price price2 = new Price(2L, VENDOR_ID, 2L, VALUE, DATE_TIME_CREATED);
+    Price price3 = new Price(3L, VENDOR_ID, INSTRUMENT_ID, VALUE, DATE_TIME_CREATED);
+    repository.add(price1);
+    repository.add(price2);
+    repository.add(price3);
+    assertThat(repository.getPricesByInstrument(INSTRUMENT_ID)).containsExactly(price1, price3);
+    assertThat(repository.getPricesByInstrument(2L)).containsExactly(price2);
+  }
 }
