@@ -5,9 +5,10 @@ Market Data Accumulator is a Spring Boot-based Java 17 application designed to h
 Application provides a REST API for vendors to push real-time price updates and empowers downstream clients with access to the latest market prices.
 It has in-memory price update cache with automated data cleanup.
 
-## Technology Stack
+## Technology stack
 Spring Boot lets us kick-start an application in minutes and the underlying Spring framework has all the tools necessary to implement, document and test a REST API with ease.
-Further evolution of the application would probably include implementing authentication & authorization, persistent storage of data, etc. Spring has the tools to cover these areas.
+Further evolution of the application would probably include implementing authentication & authorization, data validation, persistent storage of data, etc.
+Spring has the tools to cover these areas.
 
 ## Design considerations & decisions
 1. <b>Vendors pushing data versus us pulling data</b>
@@ -39,15 +40,24 @@ This can be considered as premature optimization, but I wanted to see it in acti
 Initially I wanted to have all price related endpoints to be under Price Controller but after careful consideration
 I moved Prices by Vendor and Prices by Instrument endpoints to Vendor and Instrument Controllers respectively.
 
+## Domain model
 
-## Run the App
+![domain-model](docs/domain-model.png)
+
+## Sequence diagram
+
+
+## Run the app
 >mvn spring-boot:run
 
 or
 
 >java -jar market-data-accumulator-0.0.1-SNAPSHOT.jar
 
-## Run the App in Demo Mode
+## Run the app in demo mode
+
+In demo mode repositories are populated with random data. Cache cleanup can be seen in action. Traces of cleanup can be seen in the log.
+
 >mvn spring-boot:run -Dspring-boot.run.profiles=demo
 
 or
